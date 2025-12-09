@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Environment variables - IMPORTANT!
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Secrets & API Keys
+*.pem
+*.key
+*_API_KEY*
+.raindrop-code/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Production
+/frontend/dist
+/frontend/build
+/backend/dist
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Lock files (optional - some prefer to commit these)
+# package-lock.json
+# yarn.lock
