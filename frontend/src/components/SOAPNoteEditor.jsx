@@ -22,7 +22,7 @@ function SOAPNoteEditor({ initialNote, onSave, transcript, compliance: initialCo
     setIsCheckingCompliance(true);
 
     try {
-      const response = await fetch('${API_URL}/api/notes/check-compliance', {
+      const response = await fetch(`${API_URL}/api/notes/check-compliance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function SOAPNoteEditor({ initialNote, onSave, transcript, compliance: initialCo
 
     try {
       // First re-check compliance with edited note
-      const complianceResponse = await fetch('${API_URL}/api/notes/check-compliance', {
+      const complianceResponse = await fetch(`${API_URL}/api/notes/check-compliance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function SOAPNoteEditor({ initialNote, onSave, transcript, compliance: initialCo
       }
 
       // Then save the note
-      const response = await fetch('${API_URL}/api/notes/save', {
+      const response = await fetch(`${API_URL}/api/notes/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

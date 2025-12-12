@@ -58,7 +58,7 @@ function AudioUploader({ onTranscriptReceived }) {
       const formData = new FormData();
       formData.append('audio', file);
 
-      const transcribeResponse = await fetch('${API_URL}/api/transcribe', {
+      const transcribeResponse = await fetch(`${API_URL}/api/transcribe`, {
         method: 'POST',
         body: formData,
       });
@@ -74,7 +74,7 @@ function AudioUploader({ onTranscriptReceived }) {
       }
 
       // Step 2: Generate SOAP note
-      const noteResponse = await fetch('${API_URL}/api/notes/generate', {
+      const noteResponse = await fetch(`${API_URL}/api/notes/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
