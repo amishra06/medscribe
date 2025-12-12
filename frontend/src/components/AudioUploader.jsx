@@ -1,3 +1,4 @@
+import API_URL from '../config/api';
 import React, { useState } from 'react';
 import './AudioUploader.css';
 
@@ -57,7 +58,7 @@ function AudioUploader({ onTranscriptReceived }) {
       const formData = new FormData();
       formData.append('audio', file);
 
-      const transcribeResponse = await fetch('http://localhost:3001/api/transcribe', {
+      const transcribeResponse = await fetch('${API_URL}/api/transcribe', {
         method: 'POST',
         body: formData,
       });
@@ -73,7 +74,7 @@ function AudioUploader({ onTranscriptReceived }) {
       }
 
       // Step 2: Generate SOAP note
-      const noteResponse = await fetch('http://localhost:3001/api/notes/generate', {
+      const noteResponse = await fetch('${API_URL}/api/notes/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

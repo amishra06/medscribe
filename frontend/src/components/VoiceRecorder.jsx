@@ -1,3 +1,4 @@
+import API_URL from '../config/api';
 import React, { useState } from 'react';
 import { useReactMediaRecorder } from 'react-media-recorder';
 import './VoiceRecorder.css';
@@ -49,7 +50,7 @@ function VoiceRecorder({ onRecordingComplete }) {
       const formData = new FormData();
       formData.append('audio', audioFile);
 
-      const transcribeResponse = await fetch('http://localhost:3001/api/transcribe', {
+      const transcribeResponse = await fetch('${API_URL}/api/transcribe', {
         method: 'POST',
         body: formData,
       });
@@ -65,7 +66,7 @@ function VoiceRecorder({ onRecordingComplete }) {
       }
 
       // Step 2: Generate SOAP note
-      const noteResponse = await fetch('http://localhost:3001/api/notes/generate', {
+      const noteResponse = await fetch('${API_URL}/api/notes/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
