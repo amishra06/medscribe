@@ -56,3 +56,8 @@ coverage/
 # Lock files (optional - some prefer to commit these)
 # package-lock.json
 # yarn.lock
+
+# Environment files in all locations
+.env
+backend/.env
+frontend/.env

@@ -1,0 +1,109 @@
+const express = require('express');
+const { generateSOAPNote, saveNote } = require('../services/raindrop');
+const { checkCompliance } = require('../services/compliance');
+
+const router = express.Router();
+
+// POST /api/notes/generate
+router.post('/generate', async (req, res) => {
+  try {
+    const { transcript } = req.body;
+
+    if (!transcript || transcript.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Transcript is required',
+      });
+    }
+
+    console.log('Received transcript, length:', transcript.length);
+
+    // Generate SOAP note
+    const result = await generateSOAPNote(transcript);
+
+    if (result.success) {
+      // Run compliance checks
+      const compliance = checkCompliance(result.soapNote, transcript);
+      
+      res.json({
+        success: true,
+        soapNote: result.soapNote,
+        model: result.model,
+        usage: result.usage,
+        compliance: compliance,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: result.error,
+      });
+    }
+  } catch (error) {
+    console.error('Generate note error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// POST /api/notes/check-compliance - NEW ENDPOINT
+router.post('/check-compliance', async (req, res) => {
+  try {
+    const { soapNote, transcript } = req.body;
+
+    if (!soapNote || soapNote.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'SOAP note is required',
+      });
+    }
+
+    console.log('Re-checking compliance for edited note...');
+
+    // Run compliance checks
+    const compliance = checkCompliance(soapNote, transcript || '');
+
+    res.json({
+      success: true,
+      compliance: compliance,
+    });
+  } catch (error) {
+    console.error('Compliance check error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// POST /api/notes/save
+router.post('/save', async (req, res) => {
+  try {
+    const { soapNote, transcript, patientInfo, compliance } = req.body;
+
+    if (!soapNote) {
+      return res.status(400).json({
+        success: false,
+        error: 'SOAP note is required',
+      });
+    }
+
+    const result = await saveNote({ 
+      soapNote, 
+      transcript, 
+      patientInfo,
+      compliance 
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error('Save note error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+module.exports = router;
